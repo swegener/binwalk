@@ -435,37 +435,49 @@
 >(48.l+58)  string        x            description: "%s"
 
 # Ubiquiti firmware signatures
-0       string      UBNT        Ubiquiti firmware header, header size: 264 bytes,
->0x108  belong      !0          {invalid},
->0x104  ubelong     x           ~CRC32: 0x%X,
->4      byte        0           {invalid},
+0       string      UBNT        Ubiquiti firmware header, header size: 268 bytes,
+>0      byte        x           {size:268}
+>0x108  belong      !0          {invalid}
+>0x104  ubelong     x           ~CRC32: 0x%.8X,
+>4      byte        0           {invalid}
 >4      string      x           version: "%s"
 
-0       string      GEOS        Ubiquiti firmware header, header size: 264 bytes,
->0x108  belong      !0          {invalid},
->0x104  ubelong     x           ~CRC32: 0x%X,
->4      byte        0           {invalid},
+0       string      GEOS        Ubiquiti firmware header, header size: 268 bytes,
+>0      byte        x           {size:268}
+>0x108  belong      !0          {invalid}
+>0x104  ubelong     x           ~CRC32: 0x%.8X,
+>4      byte        0           {invalid}
 >4      string      x           version: "%s"
 
-0       string      OPEN        Ubiquiti firmware header, third party,
->0x108  belong      !0          {invalid},
->0x104  ubelong     x           ~CRC32: 0x%X,
->4      byte        0           {invalid},
+0       string      OPEN        Ubiquiti firmware header, third party, header size: 268 bytes,
+>0      byte        x           {size:268}
+>0x108  belong      !0          {invalid}
+>0x104  ubelong     x           ~CRC32: 0x%.8X,
+>4      byte        0           {invalid}
 >4      string      x           version: "%s"
 
--4  string      \x00\x00\x00\x00PART    Ubiquiti partition header,
->0  byte        x                       header size: 56 bytes,
->0  byte        0                       {invalid}
->0  string      x                       name: "%s",
->40 ubelong     x                       base address: 0x%.8X,
->48 belong      x                       data size: %d bytes{size:%d}
+0          string      PART     Ubiquiti partition header,
+>0         byte        x        header size: 56 bytes,
+>0         byte        x        footer size: 8 bytes,
+>4         byte        0        {invalid}
+>4         string      x        name: "%s",
+>36        ubelong     x        index: %d,
+>32        ubelong     x        memory address: 0x%.8X,
+>40        ubelong     x        base address: 0x%.8X,
+>48        ubelong     x        data size: %d bytes,
+>48        ubelong+64  x        {size:%d}
+>(48.L+56) ubelong     x        ~CRC32: 0x%.8X,
+>(48.L+60) belong      !0       {invalid}
 
--4  string      \x00\x00\x00\x00END\x2e Ubiquiti end header, header size: 12 bytes,
->8  belong      !0                      {invalid},
->4  ubelong     x                       cumulative ~CRC32: 0x%.8X
+0          string      END\x2e  Ubiquiti end header,
+>0         byte        x        header size: 12 bytes,
+>0         byte        x        {size:12}
+>4         ubelong     x        cumulative ~CRC32: 0x%.8X
+>8         belong      !0       {invalid}
 
--4   string      \x00\x00\x00\x00ENDS   Signed Ubiquiti end header, RSA 2048 bit, header size: 264 bytes
->260 ubelong     !0                     {invalid}
+0          string      ENDS     Signed Ubiquiti end header, RSA 2048 bit, header size: 264 bytes
+>0         byte        x        {size:264}
+>264       ubelong     !0       {invalid}
 
 # Ubiquiti additional data
 -4           string   \x00\x00\x00\x00EXEC  Ubiquiti firmware additional data,
